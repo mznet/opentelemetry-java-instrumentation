@@ -14,49 +14,6 @@ libraries:
     target_versions:
       javaagent:
       - io.activej:activej-http:[6.0,)
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.server.request.duration
-        description: Duration of HTTP server requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: url.scheme
-          type: STRING
-      spans:
-      - span_kind: SERVER
-        attributes:
-        - name: client.address
-          type: STRING
-        - name: error.type
-          type: STRING
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.peer.address
-          type: STRING
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-        - name: url.path
-          type: STRING
-        - name: url.query
-          type: STRING
-        - name: url.scheme
-          type: STRING
-        - name: user_agent.original
-          type: STRING
   akka:
   - name: akka-actor-2.3
     source_path: instrumentation/akka/akka-actor-2.3
@@ -85,82 +42,6 @@ libraries:
       - com.typesafe.akka:akka-http_2.12:[10,)
       - com.typesafe.akka:akka-http_2.13:[10,)
       - com.typesafe.akka:akka-http_2.11:[10,)
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-      - name: http.server.request.duration
-        description: Duration of HTTP server requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: http.route
-          type: STRING
-        - name: network.protocol.version
-          type: STRING
-        - name: url.scheme
-          type: STRING
-      spans:
-      - span_kind: CLIENT
-        attributes:
-        - name: error.type
-          type: STRING
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-        - name: url.full
-          type: STRING
-      - span_kind: SERVER
-        attributes:
-        - name: client.address
-          type: STRING
-        - name: error.type
-          type: STRING
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: http.route
-          type: STRING
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-        - name: url.path
-          type: STRING
-        - name: url.query
-          type: STRING
-        - name: url.scheme
-          type: STRING
-        - name: user_agent.original
-          type: STRING
   alibaba:
   - name: alibaba-druid-1.0
     description: |
@@ -173,88 +54,6 @@ libraries:
       - com.alibaba:druid:(,)
       library:
       - com.alibaba:druid:1.0.0
-    telemetry:
-    - when: default
-      metrics:
-      - name: db.client.connections.idle.max
-        description: The maximum number of idle open connections allowed.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.idle.min
-        description: The minimum number of idle open connections allowed.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.max
-        description: The maximum number of open connections allowed.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.pending_requests
-        description: The number of pending requests for an open connection, cumulative
-          for the entire pool.
-        type: LONG_SUM
-        unit: requests
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.usage
-        description: The number of connections that are currently in state described
-          by the state attribute.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-        - name: state
-          type: STRING
-    - when: otel.semconv-stability.opt-in=database
-      metrics:
-      - name: db.client.connection.count
-        description: The number of connections that are currently in state described
-          by the state attribute.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-        - name: db.client.connection.state
-          type: STRING
-      - name: db.client.connection.idle.max
-        description: The maximum number of idle open connections allowed.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-      - name: db.client.connection.idle.min
-        description: The minimum number of idle open connections allowed.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-      - name: db.client.connection.max
-        description: The maximum number of open connections allowed.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-      - name: db.client.connection.pending_requests
-        description: The number of current pending requests for an open connection.
-        type: LONG_SUM
-        unit: request
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
   apache:
   - name: apache-dbcp-2.0
     description: |
@@ -268,73 +67,6 @@ libraries:
       - org.apache.commons:commons-dbcp2:[2,)
       library:
       - org.apache.commons:commons-dbcp2:2.0
-    telemetry:
-    - when: default
-      metrics:
-      - name: db.client.connections.idle.max
-        description: The maximum number of idle open connections allowed.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.idle.min
-        description: The minimum number of idle open connections allowed.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.max
-        description: The maximum number of open connections allowed.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.usage
-        description: The number of connections that are currently in state described
-          by the state attribute.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-        - name: state
-          type: STRING
-    - when: otel.semconv-stability.opt-in=database
-      metrics:
-      - name: db.client.connection.count
-        description: The number of connections that are currently in state described
-          by the state attribute.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-        - name: db.client.connection.state
-          type: STRING
-      - name: db.client.connection.idle.max
-        description: The maximum number of idle open connections allowed.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-      - name: db.client.connection.idle.min
-        description: The minimum number of idle open connections allowed.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-      - name: db.client.connection.max
-        description: The maximum number of open connections allowed.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
   - name: apache-dubbo-2.7
     description: The Apache Dubbo instrumentation provides client and server spans
       for Apache Dubbo RPC calls. Each call produces a span named after the Dubbo
@@ -352,33 +84,6 @@ libraries:
         services.
       type: map
       default: ''
-    telemetry:
-    - when: default
-      spans:
-      - span_kind: CLIENT
-        attributes:
-        - name: rpc.method
-          type: STRING
-        - name: rpc.service
-          type: STRING
-        - name: rpc.system
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-      - span_kind: SERVER
-        attributes:
-        - name: network.peer.address
-          type: STRING
-        - name: network.peer.port
-          type: LONG
-        - name: rpc.method
-          type: STRING
-        - name: rpc.service
-          type: STRING
-        - name: rpc.system
-          type: STRING
   - name: apache-httpasyncclient-4.1
     description: This instrumentation provides CLIENT spans and metrics for the Apache
       HttpAsyncClient.
@@ -388,43 +93,6 @@ libraries:
     target_versions:
       javaagent:
       - org.apache.httpcomponents:httpasyncclient:[4.1,)
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-      spans:
-      - span_kind: CLIENT
-        attributes:
-        - name: error.type
-          type: STRING
-        - name: http.request.method
-          type: STRING
-        - name: http.request.method_original
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-        - name: url.full
-          type: STRING
   - name: apache-httpclient-2.0
     description: This instrumentation provides CLIENT spans and metrics for versions
       2 and 3 of the Apache HttpClient.
@@ -434,41 +102,6 @@ libraries:
     target_versions:
       javaagent:
       - commons-httpclient:commons-httpclient:[2.0,4.0)
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-      spans:
-      - span_kind: CLIENT
-        attributes:
-        - name: error.type
-          type: STRING
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-        - name: url.full
-          type: STRING
   - name: apache-httpclient-4.0
     description: This instrumentation provides CLIENT spans and metrics for version
       4 of the Apache HttpClient.
@@ -479,43 +112,6 @@ libraries:
       javaagent:
       - io.dropwizard:dropwizard-client:(,3.0.0)
       - org.apache.httpcomponents:httpclient:[4.0,)
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-      spans:
-      - span_kind: CLIENT
-        attributes:
-        - name: error.type
-          type: STRING
-        - name: http.request.method
-          type: STRING
-        - name: http.request.method_original
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-        - name: url.full
-          type: STRING
   - name: apache-httpclient-4.3
     description: This instrumentation provides a library integration that enables
       CLIENT spans and metrics for the Apache HttpClient.
@@ -525,45 +121,6 @@ libraries:
     target_versions:
       library:
       - org.apache.httpcomponents:httpclient:[4.3,4.+)
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-      spans:
-      - span_kind: CLIENT
-        attributes:
-        - name: error.type
-          type: STRING
-        - name: http.request.method
-          type: STRING
-        - name: http.request.method_original
-          type: STRING
-        - name: http.request.resend_count
-          type: LONG
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-        - name: url.full
-          type: STRING
   - name: apache-httpclient-5.0
     source_path: instrumentation/apache-httpclient/apache-httpclient-5.0
     scope:
@@ -571,24 +128,6 @@ libraries:
     target_versions:
       javaagent:
       - org.apache.httpcomponents.client5:httpclient5:[5.0,)
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   - name: apache-httpclient-5.2
     source_path: instrumentation/apache-httpclient/apache-httpclient-5.2
     scope:
@@ -709,22 +248,6 @@ libraries:
       description: Allows configuring headers to capture as span attributes.
       type: list
       default: ''
-    telemetry:
-    - when: otel.semconv-stability.opt-in=database
-      metrics:
-      - name: db.client.operation.duration
-        description: Duration of database client operations.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: db.operation.name
-          type: STRING
-        - name: db.system.name
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   - name: aws-sdk-2.2
     source_path: instrumentation/aws-sdk/aws-sdk-2.2
     scope:
@@ -771,44 +294,6 @@ libraries:
         should be recorded as events for the SDK span.
       type: boolean
       default: false
-    telemetry:
-    - when: default
-      metrics:
-      - name: gen_ai.client.operation.duration
-        description: GenAI operation duration.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: gen_ai.operation.name
-          type: STRING
-        - name: gen_ai.request.model
-          type: STRING
-        - name: gen_ai.system
-          type: STRING
-      - name: gen_ai.client.token.usage
-        description: Measures number of input and output tokens used.
-        type: HISTOGRAM
-        unit: token
-        attributes:
-        - name: gen_ai.operation.name
-          type: STRING
-        - name: gen_ai.request.model
-          type: STRING
-        - name: gen_ai.system
-          type: STRING
-        - name: gen_ai.token.type
-          type: STRING
-    - when: otel.semconv-stability.opt-in=database
-      metrics:
-      - name: db.client.operation.duration
-        description: Duration of database client operations.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: db.operation.name
-          type: STRING
-        - name: db.system.name
-          type: STRING
   azure:
   - name: azure-core-1.14
     source_path: instrumentation/azure-core/azure-core-1.14
@@ -843,46 +328,6 @@ libraries:
       - com.mchange:c3p0:(,)
       library:
       - com.mchange:c3p0:0.9.2
-    telemetry:
-    - when: default
-      metrics:
-      - name: db.client.connections.pending_requests
-        description: The number of pending requests for an open connection, cumulative
-          for the entire pool.
-        type: LONG_SUM
-        unit: requests
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.usage
-        description: The number of connections that are currently in state described
-          by the state attribute.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-        - name: state
-          type: STRING
-    - when: otel.semconv-stability.opt-in=database
-      metrics:
-      - name: db.client.connection.count
-        description: The number of connections that are currently in state described
-          by the state attribute.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-        - name: db.client.connection.state
-          type: STRING
-      - name: db.client.connection.pending_requests
-        description: The number of current pending requests for an open connection.
-        type: LONG_SUM
-        unit: request
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
   camel:
   - name: camel-2.20
     description: |
@@ -958,59 +403,6 @@ libraries:
       description: Enables statement sanitization for database queries.
       type: boolean
       default: true
-    telemetry:
-    - when: default
-      spans:
-      - span_kind: CLIENT
-        attributes:
-        - name: db.name
-          type: STRING
-        - name: db.operation
-          type: STRING
-        - name: db.statement
-          type: STRING
-        - name: db.system
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-    - when: otel.semconv-stability.opt-in=database
-      metrics:
-      - name: db.client.operation.duration
-        description: Duration of database client operations.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: db.namespace
-          type: STRING
-        - name: db.operation.name
-          type: STRING
-        - name: db.system.name
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-      spans:
-      - span_kind: CLIENT
-        attributes:
-        - name: db.namespace
-          type: STRING
-        - name: db.operation.name
-          type: STRING
-        - name: db.query.text
-          type: STRING
-        - name: db.response.status_code
-          type: STRING
-        - name: db.system.name
-          type: STRING
-        - name: error.type
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   couchbase:
   - name: couchbase-2.0
     source_path: instrumentation/couchbase/couchbase-2.0
@@ -1227,22 +619,6 @@ libraries:
     target_versions:
       javaagent:
       - com.google.http-client:google-http-client:[1.19.0,)
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   grails:
   - name: grails-3.0
     source_path: instrumentation/grails-3.0
@@ -1355,134 +731,6 @@ libraries:
       - com.zaxxer:HikariCP:[3.0.0,)
       library:
       - com.zaxxer:HikariCP:3.0.0
-    telemetry:
-    - when: default
-      metrics:
-      - name: db.client.connections.create_time
-        description: The time it took to create a new connection.
-        type: HISTOGRAM
-        unit: ms
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.idle.min
-        description: The minimum number of idle open connections allowed.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.max
-        description: The maximum number of open connections allowed.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.pending_requests
-        description: The number of pending requests for an open connection, cumulative
-          for the entire pool.
-        type: LONG_SUM
-        unit: requests
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.timeouts
-        description: The number of connection timeouts that have occurred trying to
-          obtain a connection from the pool.
-        type: LONG_SUM
-        unit: timeouts
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.usage
-        description: The number of connections that are currently in state described
-          by the state attribute.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-        - name: state
-          type: STRING
-      - name: db.client.connections.use_time
-        description: The time between borrowing a connection and returning it to the
-          pool.
-        type: HISTOGRAM
-        unit: ms
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.wait_time
-        description: The time it took to obtain an open connection from the pool.
-        type: HISTOGRAM
-        unit: ms
-        attributes:
-        - name: pool.name
-          type: STRING
-    - when: otel.semconv-stability.opt-in=database
-      metrics:
-      - name: db.client.connection.count
-        description: The number of connections that are currently in state described
-          by the state attribute.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-        - name: db.client.connection.state
-          type: STRING
-      - name: db.client.connection.create_time
-        description: The time it took to create a new connection.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-      - name: db.client.connection.idle.min
-        description: The minimum number of idle open connections allowed.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-      - name: db.client.connection.max
-        description: The maximum number of open connections allowed.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-      - name: db.client.connection.pending_requests
-        description: The number of current pending requests for an open connection.
-        type: LONG_SUM
-        unit: request
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-      - name: db.client.connection.timeouts
-        description: The number of connection timeouts that have occurred trying to
-          obtain a connection from the pool.
-        type: LONG_SUM
-        unit: timeout
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-      - name: db.client.connection.use_time
-        description: The time between borrowing a connection and returning it to the
-          pool.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-      - name: db.client.connection.wait_time
-        description: The time it took to obtain an open connection from the pool.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
   http:
   - name: http-url-connection
     source_path: instrumentation/http-url-connection
@@ -1491,24 +739,6 @@ libraries:
     target_versions:
       javaagent:
       - Java 8+
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   hystrix:
   - name: hystrix-1.4
     source_path: instrumentation/hystrix-1.4
@@ -1534,24 +764,6 @@ libraries:
     target_versions:
       javaagent:
       - Java 11+
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   - name: java-http-server
     source_path: instrumentation/java-http-server
     scope:
@@ -1787,24 +999,6 @@ libraries:
       - org.eclipse.jetty:jetty-client:[12,)
       library:
       - org.eclipse.jetty:jetty-client:12.0.0
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   - name: jetty-httpclient-9.2
     source_path: instrumentation/jetty-httpclient/jetty-httpclient-9.2
     scope:
@@ -1814,24 +1008,6 @@ libraries:
       - org.eclipse.jetty:jetty-client:[9.2,10)
       library:
       - org.eclipse.jetty:jetty-client:[9.2.0.v20140526,9.+)
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   jms:
   - name: jms-1.1
     source_path: instrumentation/jms/jms-1.1
@@ -1858,24 +1034,6 @@ libraries:
     target_versions:
       javaagent:
       - org.jodd:jodd-http:[4.2.0,)
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   jsf:
   - name: jsf-mojarra-1.2
     source_path: instrumentation/jsf/jsf-mojarra-1.2
@@ -1936,6 +1094,10 @@ libraries:
       description: Enables the capture of the experimental consumer attribute "kafka.record.queue_time_ms"
       type: boolean
       default: false
+    - name: otel.instrumentation.messaging.experimental.capture-headers
+      description: Allows configuring headers to capture as span attributes.
+      type: list
+      default: ''
   - name: kafka-clients-2.6
     source_path: instrumentation/kafka/kafka-clients/kafka-clients-2.6
     scope:
@@ -1951,15 +1113,6 @@ libraries:
       javaagent:
       - org.apache.kafka:kafka-streams:[0.11.0.0,)
   kotlinx:
-  - name: kotlinx-coroutines
-    source_path: instrumentation/kotlinx-coroutines
-    scope:
-      name: io.opentelemetry.kotlinx-coroutines
-    target_versions:
-      javaagent:
-      - org.jetbrains.kotlinx:kotlinx-coroutines-core:[1.3.0,1.3.8)
-      - org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:[1.3.9,)
-      - org.jetbrains.kotlinx:kotlinx-coroutines-core:[1.0.0,1.3.8)
   - name: kotlinx-coroutines-1.0
     source_path: instrumentation/kotlinx-coroutines/kotlinx-coroutines-1.0
     scope:
@@ -2167,37 +1320,6 @@ libraries:
     target_versions:
       javaagent:
       - io.netty:netty:[3.8.0.Final,4)
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-      - name: http.server.request.duration
-        description: Duration of HTTP server requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: url.scheme
-          type: STRING
   - name: netty-4.0
     source_path: instrumentation/netty/netty-4.0
     scope:
@@ -2215,37 +1337,6 @@ libraries:
       description: Enable SSL telemetry
       type: boolean
       default: false
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-      - name: http.server.request.duration
-        description: Duration of HTTP server requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: url.scheme
-          type: STRING
   - name: netty-4.1
     source_path: instrumentation/netty/netty-4.1
     scope:
@@ -2265,37 +1356,6 @@ libraries:
       description: Enable SSL telemetry
       type: boolean
       default: false
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-      - name: http.server.request.duration
-        description: Duration of HTTP server requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: url.scheme
-          type: STRING
   okhttp:
   - name: okhttp-2.2
     source_path: instrumentation/okhttp/okhttp-2.2
@@ -2304,24 +1364,6 @@ libraries:
     target_versions:
       javaagent:
       - com.squareup.okhttp:okhttp:[2.2,3)
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   - name: okhttp-3.0
     source_path: instrumentation/okhttp/okhttp-3.0
     scope:
@@ -2331,24 +1373,6 @@ libraries:
       - com.squareup.okhttp3:okhttp:[3.0,)
       library:
       - com.squareup.okhttp3:okhttp:3.0.0
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   opensearch:
   - name: opensearch-rest-1.0
     source_path: instrumentation/opensearch/opensearch-rest-1.0
@@ -2379,60 +1403,6 @@ libraries:
       library:
       - com.oracle.database.jdbc:ucp:11.2.0.4
       - com.oracle.database.jdbc:ojdbc8:12.2.0.1
-    telemetry:
-    - when: default
-      metrics:
-      - name: db.client.connections.max
-        description: The maximum number of open connections allowed.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.pending_requests
-        description: The number of pending requests for an open connection, cumulative
-          for the entire pool.
-        type: LONG_SUM
-        unit: requests
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.usage
-        description: The number of connections that are currently in state described
-          by the state attribute.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-        - name: state
-          type: STRING
-    - when: otel.semconv-stability.opt-in=database
-      metrics:
-      - name: db.client.connection.count
-        description: The number of connections that are currently in state described
-          by the state attribute.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-        - name: db.client.connection.state
-          type: STRING
-      - name: db.client.connection.max
-        description: The maximum number of open connections allowed.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-      - name: db.client.connection.pending_requests
-        description: The number of current pending requests for an open connection.
-        type: LONG_SUM
-        unit: request
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
   oshi:
   - name: oshi
     description: When the OSHI library is detected on the classpath, this instrumentation
@@ -2451,143 +1421,6 @@ libraries:
       description: Enable the OSHI process runtime metrics.
       type: boolean
       default: false
-    telemetry:
-    - when: default
-      metrics:
-      - name: system.disk.io
-        description: System disk IO
-        type: LONG_SUM
-        unit: By
-        attributes:
-        - name: device
-          type: STRING
-        - name: direction
-          type: STRING
-      - name: system.disk.operations
-        description: System disk operations
-        type: LONG_SUM
-        unit: operations
-        attributes:
-        - name: device
-          type: STRING
-        - name: direction
-          type: STRING
-      - name: system.memory.usage
-        description: System memory usage
-        type: LONG_SUM
-        unit: By
-        attributes:
-        - name: state
-          type: STRING
-      - name: system.memory.utilization
-        description: System memory utilization
-        type: DOUBLE_GAUGE
-        unit: '1'
-        attributes:
-        - name: state
-          type: STRING
-      - name: system.network.errors
-        description: System network errors
-        type: LONG_SUM
-        unit: errors
-        attributes:
-        - name: device
-          type: STRING
-        - name: direction
-          type: STRING
-      - name: system.network.io
-        description: System network IO
-        type: LONG_SUM
-        unit: By
-        attributes:
-        - name: device
-          type: STRING
-        - name: direction
-          type: STRING
-      - name: system.network.packets
-        description: System network packets
-        type: LONG_SUM
-        unit: packets
-        attributes:
-        - name: device
-          type: STRING
-        - name: direction
-          type: STRING
-    - when: otel.instrumentation.oshi.experimental-metrics.enabled=true
-      metrics:
-      - name: runtime.java.cpu_time
-        description: Runtime Java CPU time
-        type: LONG_GAUGE
-        unit: ms
-        attributes:
-        - name: type
-          type: STRING
-      - name: runtime.java.memory
-        description: Runtime Java memory
-        type: LONG_SUM
-        unit: By
-        attributes:
-        - name: type
-          type: STRING
-      - name: system.disk.io
-        description: System disk IO
-        type: LONG_SUM
-        unit: By
-        attributes:
-        - name: device
-          type: STRING
-        - name: direction
-          type: STRING
-      - name: system.disk.operations
-        description: System disk operations
-        type: LONG_SUM
-        unit: operations
-        attributes:
-        - name: device
-          type: STRING
-        - name: direction
-          type: STRING
-      - name: system.memory.usage
-        description: System memory usage
-        type: LONG_SUM
-        unit: By
-        attributes:
-        - name: state
-          type: STRING
-      - name: system.memory.utilization
-        description: System memory utilization
-        type: DOUBLE_GAUGE
-        unit: '1'
-        attributes:
-        - name: state
-          type: STRING
-      - name: system.network.errors
-        description: System network errors
-        type: LONG_SUM
-        unit: errors
-        attributes:
-        - name: device
-          type: STRING
-        - name: direction
-          type: STRING
-      - name: system.network.io
-        description: System network IO
-        type: LONG_SUM
-        unit: By
-        attributes:
-        - name: device
-          type: STRING
-        - name: direction
-          type: STRING
-      - name: system.network.packets
-        description: System network packets
-        type: LONG_SUM
-        unit: packets
-        attributes:
-        - name: device
-          type: STRING
-        - name: direction
-          type: STRING
   payara:
   - name: payara
     source_path: instrumentation/payara
@@ -2615,39 +1448,6 @@ libraries:
       - org.apache.pekko:pekko-http_3:[1.0,)
       - com.softwaremill.sttp.tapir:tapir-pekko-http-server_2.13:[1.7,)
       - org.apache.pekko:pekko-http_2.13:[1.0,)
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
-      - name: http.server.request.duration
-        description: Duration of HTTP server requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: http.route
-          type: STRING
-        - name: network.protocol.version
-          type: STRING
-        - name: url.scheme
-          type: STRING
   play:
   - name: play-mvc-2.4
     source_path: instrumentation/play/play-mvc/play-mvc-2.4
@@ -2673,22 +1473,6 @@ libraries:
       javaagent:
       - com.typesafe.play:play-ahc-ws-standalone_2.12:[1.0.0,2.0.0)
       - com.typesafe.play:play-ahc-ws-standalone_2.11:[1.0.0,2.0.0)
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   - name: play-ws-2.0
     source_path: instrumentation/play/play-ws/play-ws-2.0
     scope:
@@ -2698,22 +1482,6 @@ libraries:
       - com.typesafe.play:play-ahc-ws-standalone_2.12:[2.0.0,2.1.0)
       - com.typesafe.play:play-ahc-ws-standalone_2.13:[2.0.6,2.1.0)
       - com.typesafe.play:play-ahc-ws-standalone_2.11:[2.0.0,]
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   - name: play-ws-2.1
     source_path: instrumentation/play/play-ws/play-ws-2.1
     scope:
@@ -2722,22 +1490,6 @@ libraries:
       javaagent:
       - com.typesafe.play:play-ahc-ws-standalone_2.13:[2.1.0,]
       - com.typesafe.play:play-ahc-ws-standalone_2.12:[2.1.0,]
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   powerjob:
   - name: powerjob-4.0
     source_path: instrumentation/powerjob-4.0
@@ -2849,24 +1601,6 @@ libraries:
       description: Enable the creation of Connect and DNS spans.
       type: boolean
       default: false
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   rediscala:
   - name: rediscala-1.8
     source_path: instrumentation/rediscala-1.8
@@ -3180,22 +1914,6 @@ libraries:
       - io.projectreactor.ipc:reactor-netty:[0.7.0.RELEASE,)
       - org.springframework:spring-webflux:[5.0.0.RELEASE,)
       - io.projectreactor.netty:reactor-netty:[0.8.0.RELEASE,)
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   - name: spring-webflux-5.3
     source_path: instrumentation/spring/spring-webflux/spring-webflux-5.3
     scope:
@@ -3285,88 +2003,6 @@ libraries:
     target_versions:
       javaagent:
       - org.apache.tomcat:tomcat-jdbc:[8.5.0,)
-    telemetry:
-    - when: default
-      metrics:
-      - name: db.client.connections.idle.max
-        description: The maximum number of idle open connections allowed.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.idle.min
-        description: The minimum number of idle open connections allowed.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.max
-        description: The maximum number of open connections allowed.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.pending_requests
-        description: The number of pending requests for an open connection, cumulative
-          for the entire pool.
-        type: LONG_SUM
-        unit: requests
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.usage
-        description: The number of connections that are currently in state described
-          by the state attribute.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-        - name: state
-          type: STRING
-    - when: otel.semconv-stability.opt-in=database
-      metrics:
-      - name: db.client.connection.count
-        description: The number of connections that are currently in state described
-          by the state attribute.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-        - name: db.client.connection.state
-          type: STRING
-      - name: db.client.connection.idle.max
-        description: The maximum number of idle open connections allowed.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-      - name: db.client.connection.idle.min
-        description: The minimum number of idle open connections allowed.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-      - name: db.client.connection.max
-        description: The maximum number of open connections allowed.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-      - name: db.client.connection.pending_requests
-        description: The number of current pending requests for an open connection.
-        type: LONG_SUM
-        unit: request
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
   twilio:
   - name: twilio-6.6
     source_path: instrumentation/twilio-6.6
@@ -3400,22 +2036,6 @@ libraries:
     target_versions:
       javaagent:
       - io.vertx:vertx-core:[3.0.0,4.0.0)
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   - name: vertx-http-client-4.0
     source_path: instrumentation/vertx/vertx-http-client/vertx-http-client-4.0
     scope:
@@ -3423,24 +2043,6 @@ libraries:
     target_versions:
       javaagent:
       - io.vertx:vertx-core:[4.0.0,5)
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   - name: vertx-http-client-5.0
     source_path: instrumentation/vertx/vertx-http-client/vertx-http-client-5.0
     minimum_java_version: 11
@@ -3449,24 +2051,6 @@ libraries:
     target_versions:
       javaagent:
       - io.vertx:vertx-core:[5.0.0,)
-    telemetry:
-    - when: default
-      metrics:
-      - name: http.client.request.duration
-        description: Duration of HTTP client requests.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: http.request.method
-          type: STRING
-        - name: http.response.status_code
-          type: LONG
-        - name: network.protocol.version
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   - name: vertx-kafka-client-3.6
     source_path: instrumentation/vertx/vertx-kafka-client-3.6
     scope:
@@ -3481,28 +2065,6 @@ libraries:
     target_versions:
       javaagent:
       - io.vertx:vertx-redis-client:[4.0.0,)
-    telemetry:
-    - when: otel.semconv-stability.opt-in=database
-      metrics:
-      - name: db.client.operation.duration
-        description: Duration of database client operations.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: db.namespace
-          type: STRING
-        - name: db.operation.name
-          type: STRING
-        - name: db.system.name
-          type: STRING
-        - name: network.peer.address
-          type: STRING
-        - name: network.peer.port
-          type: LONG
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   - name: vertx-rx-java-3.5
     source_path: instrumentation/vertx/vertx-rx-java-3.5
     scope:
@@ -3517,24 +2079,6 @@ libraries:
     target_versions:
       javaagent:
       - io.vertx:vertx-sql-client:[4.0.0,5)
-    telemetry:
-    - when: otel.semconv-stability.opt-in=database
-      metrics:
-      - name: db.client.operation.duration
-        description: Duration of database client operations.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: db.collection.name
-          type: STRING
-        - name: db.namespace
-          type: STRING
-        - name: db.operation.name
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   - name: vertx-sql-client-5.0
     source_path: instrumentation/vertx/vertx-sql-client/vertx-sql-client-5.0
     minimum_java_version: 11
@@ -3543,24 +2087,6 @@ libraries:
     target_versions:
       javaagent:
       - io.vertx:vertx-sql-client:[5.0.0,)
-    telemetry:
-    - when: otel.semconv-stability.opt-in=database
-      metrics:
-      - name: db.client.operation.duration
-        description: Duration of database client operations.
-        type: HISTOGRAM
-        unit: s
-        attributes:
-        - name: db.collection.name
-          type: STRING
-        - name: db.namespace
-          type: STRING
-        - name: db.operation.name
-          type: STRING
-        - name: server.address
-          type: STRING
-        - name: server.port
-          type: LONG
   - name: vertx-web-3.0
     source_path: instrumentation/vertx/vertx-web-3.0
     scope:
@@ -3580,45 +2106,6 @@ libraries:
       - org.vibur:vibur-dbcp:[11.0,)
       library:
       - org.vibur:vibur-dbcp:11.0
-    telemetry:
-    - when: default
-      metrics:
-      - name: db.client.connections.max
-        description: The maximum number of open connections allowed.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-      - name: db.client.connections.usage
-        description: The number of connections that are currently in state described
-          by the state attribute.
-        type: LONG_SUM
-        unit: connections
-        attributes:
-        - name: pool.name
-          type: STRING
-        - name: state
-          type: STRING
-    - when: otel.semconv-stability.opt-in=database
-      metrics:
-      - name: db.client.connection.count
-        description: The number of connections that are currently in state described
-          by the state attribute.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
-        - name: db.client.connection.state
-          type: STRING
-      - name: db.client.connection.max
-        description: The maximum number of open connections allowed.
-        type: LONG_SUM
-        unit: connection
-        attributes:
-        - name: db.client.connection.pool.name
-          type: STRING
   wicket:
   - name: wicket-8.0
     source_path: instrumentation/wicket-8.0
