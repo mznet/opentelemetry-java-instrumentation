@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package io.opentelemetry.javaagent.instrumentation.clickhouse.clientv2.v0_8;
+package io.opentelemetry.javaagent.instrumentation.clickhouse.clientv2.v0_6;
 
 import static io.opentelemetry.instrumentation.testing.junit.db.DbClientMetricsTestUtil.assertDurationMetric;
 import static io.opentelemetry.javaagent.instrumentation.clickhouse.testing.ClickHouseAttributeAssertions.attributeAssertions;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
 import com.clickhouse.client.api.Client;
-import com.clickhouse.client.api.ServerException;
+import com.clickhouse.client.api.ClientException;
 import com.clickhouse.client.api.command.CommandResponse;
 import com.clickhouse.client.api.enums.Protocol;
 import com.clickhouse.client.api.query.GenericRecord;
@@ -48,22 +48,24 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.testcontainers.containers.GenericContainer;
 
 @TestInstance(Lifecycle.PER_CLASS)
-class ClickHouseClientV2Test {
+public class ClickHouseClientV2TestV06 {
 
   @RegisterExtension
-  private static final InstrumentationExtension testing = AgentInstrumentationExtension.create();
+  protected static final InstrumentationExtension testing = AgentInstrumentationExtension.create();
 
-  private static final GenericContainer<?> clickhouseServer =
+  protected static final GenericContainer<?> clickhouseServer =
       new GenericContainer<>("clickhouse/clickhouse-server:24.4.2").withExposedPorts(8123);
 
-  private static final String dbName = "default";
-  private static final String tableName = "test_table";
-  private static int port;
-  private static String host;
-  private static Client client;
-  private static final String username = "default";
-  private static final String password = "";
+  protected static final String dbName = "default";
+  protected static final String tableName = "test_table";
+  protected static int port;
+  protected static String host;
+  protected static Client client;
+  protected static final String username = "default";
+  protected static final String password = "";
+  protected String clickhouseVersion = System.getProperty("clickhouse.client.version", "0.6.4");
 
+  @SuppressWarnings("deprecation") // using useNewImplementation
   @BeforeAll
   void setup() throws Exception {
     clickhouseServer.start();
@@ -72,6 +74,7 @@ class ClickHouseClientV2Test {
 
     client =
         new Client.Builder()
+            .useNewImplementation(true)
             .addEndpoint(Protocol.HTTP, host, port, false)
             .setDefaultDatabase(dbName)
             .setUsername(username)
@@ -124,7 +127,7 @@ class ClickHouseClientV2Test {
 
     assertDurationMetric(
         testing,
-        "io.opentelemetry.clickhouse-clientv2-0.8",
+        "io.opentelemetry.clickhouse-clientv2-0.6",
         DB_SYSTEM_NAME,
         DB_OPERATION_NAME,
         DB_NAMESPACE,
@@ -203,14 +206,14 @@ class ClickHouseClientV2Test {
               response.close();
             });
 
-    assertThat(thrown).isInstanceOf(ServerException.class);
+    assertThat(thrown).isInstanceOf(ClientException.class);
 
     List<AttributeAssertion> assertions =
         new ArrayList<>(
             attributeAssertions(dbName, host, port, "select * from non_existent_table", "SELECT"));
     if (SemconvStability.emitStableDatabaseSemconv()) {
-      assertions.add(equalTo(DB_RESPONSE_STATUS_CODE, "60"));
-      assertions.add(equalTo(ERROR_TYPE, "com.clickhouse.client.api.ServerException"));
+      assertions.add(equalTo(DB_RESPONSE_STATUS_CODE, null));
+      assertions.add(equalTo(ERROR_TYPE, "com.clickhouse.client.api.ClientException"));
     }
     testing.waitAndAssertTraces(
         trace ->

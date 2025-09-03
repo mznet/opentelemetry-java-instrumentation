@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package io.opentelemetry.javaagent.instrumentation.clickhouse.clientv2.v0_8;
+package io.opentelemetry.javaagent.instrumentation.clickhouse.clientv2.v0_6;
 
 import com.google.auto.service.AutoService;
 import io.opentelemetry.javaagent.extension.instrumentation.InstrumentationModule;
@@ -17,7 +17,7 @@ public class ClickHouseClientV2InstrumentationModule extends InstrumentationModu
     implements ExperimentalInstrumentationModule {
 
   public ClickHouseClientV2InstrumentationModule() {
-    super("clickhouse-clientv2", "clickhouse-clientv2-0.8", "clickhouse");
+    super("clickhouse-clientv2", "clickhouse-clientv2-0.6", "clickhouse");
   }
 
   @Override
