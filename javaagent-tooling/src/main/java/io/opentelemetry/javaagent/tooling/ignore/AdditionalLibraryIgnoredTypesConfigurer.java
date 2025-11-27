@@ -53,6 +53,7 @@ public class AdditionalLibraryIgnoredTypesConfigurer implements IgnoredTypesConf
 
     builder
         .ignoreClass("org.springframework.aop.")
+        .allowClass("org.springframework.aop.interceptor.AsyncExecutionInterceptor$")
         .ignoreClass("org.springframework.cache.")
         .ignoreClass("org.springframework.dao.")
         .ignoreClass("org.springframework.ejb.")
@@ -111,6 +112,8 @@ public class AdditionalLibraryIgnoredTypesConfigurer implements IgnoredTypesConf
         .allowClass(
             "org.springframework.boot.actuate.metrics.web.reactive.server.MetricsWebFilter$$Lambda")
         .allowClass("org.springframework.boot.autoconfigure.BackgroundPreinitializer$")
+        .allowClass(
+            "org.springframework.boot.autoconfigure.preinitialize.BackgroundPreinitializingApplicationListener$")
         .allowClass(
             "org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration$$Lambda")
         .allowClass("org.springframework.boot.autoconfigure.condition.OnClassCondition$")
