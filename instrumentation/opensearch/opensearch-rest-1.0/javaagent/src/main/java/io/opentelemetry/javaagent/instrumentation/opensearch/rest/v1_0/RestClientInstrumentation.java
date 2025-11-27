@@ -69,8 +69,9 @@ public class RestClientInstrumentation implements TypeInstrumentation {
     @Nullable
     public static AdviceScope start(Request request) {
       Context parentContext = currentContext();
+      String body = OpenSearchBodyExtractor.extract(request.getEntity());
       OpenSearchRestRequest otelRequest =
-          OpenSearchRestRequest.create(request.getMethod(), request.getEndpoint());
+          OpenSearchRestRequest.create(request.getMethod(), request.getEndpoint(), body);
       if (!instrumenter().shouldStart(parentContext, otelRequest)) {
         return null;
       }

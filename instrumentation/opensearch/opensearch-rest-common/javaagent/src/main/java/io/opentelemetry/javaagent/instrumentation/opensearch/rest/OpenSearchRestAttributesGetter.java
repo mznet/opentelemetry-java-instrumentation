@@ -43,7 +43,9 @@ final class OpenSearchRestAttributesGetter
   @Override
   @Nullable
   public String getDbQueryText(OpenSearchRestRequest request) {
-    return request.getMethod() + " " + request.getOperation();
+    return request.getBody() == null
+        ? request.getMethod() + " " + request.getOperation()
+        : request.getBody();
   }
 
   @Override

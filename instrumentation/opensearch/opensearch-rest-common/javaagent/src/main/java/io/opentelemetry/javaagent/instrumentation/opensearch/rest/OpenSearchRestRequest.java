@@ -6,15 +6,21 @@
 package io.opentelemetry.javaagent.instrumentation.opensearch.rest;
 
 import com.google.auto.value.AutoValue;
+import javax.annotation.Nullable;
 
 @AutoValue
 public abstract class OpenSearchRestRequest {
 
-  public static OpenSearchRestRequest create(String method, String endpoint) {
-    return new AutoValue_OpenSearchRestRequest(method, endpoint);
+  public static OpenSearchRestRequest create(
+      String method, String endpoint, @Nullable String body) {
+    String sanitizedBody = OpenSearchBodySanitizer.sanitize(body);
+    return new AutoValue_OpenSearchRestRequest(method, endpoint, sanitizedBody);
   }
 
   public abstract String getMethod();
 
   public abstract String getOperation();
+
+  @Nullable
+  public abstract String getBody();
 }

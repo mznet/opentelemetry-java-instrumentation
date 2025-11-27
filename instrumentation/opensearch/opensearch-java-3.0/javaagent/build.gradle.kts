@@ -16,6 +16,7 @@ otelJava {
 
 dependencies {
   library("org.opensearch.client:opensearch-java:3.0.0")
+  implementation(project(":instrumentation:opensearch:opensearch-rest-common:javaagent"))
   compileOnly("com.google.auto.value:auto-value-annotations")
   annotationProcessor("com.google.auto.value:auto-value")
 
@@ -24,13 +25,15 @@ dependencies {
   testInstrumentation(project(":instrumentation:apache-httpclient:apache-httpclient-5.0:javaagent"))
 
   // For testing AwsSdk2Transport
+  // AwsSdk2Transport supports awssdk version 2.26.0
   testInstrumentation(project(":instrumentation:apache-httpclient:apache-httpclient-4.0:javaagent"))
   testInstrumentation(project(":instrumentation:netty:netty-4.1:javaagent"))
-  testImplementation("software.amazon.awssdk:auth:2.22.0")
-  testImplementation("software.amazon.awssdk:identity-spi:2.22.0")
-  testImplementation("software.amazon.awssdk:apache-client:2.22.0")
-  testImplementation("software.amazon.awssdk:netty-nio-client:2.22.0")
-  testImplementation("software.amazon.awssdk:regions:2.22.0")
+  testImplementation("software.amazon.awssdk:auth:2.26.0")
+  testImplementation("software.amazon.awssdk:identity-spi:2.26.0")
+  testImplementation("software.amazon.awssdk:apache-client:2.26.0")
+  testImplementation("software.amazon.awssdk:netty-nio-client:2.26.0")
+  testImplementation("software.amazon.awssdk:netty-nio-client:2.26.0")
+  testImplementation("software.amazon.awssdk:regions:2.26.0")
 }
 
 tasks {
