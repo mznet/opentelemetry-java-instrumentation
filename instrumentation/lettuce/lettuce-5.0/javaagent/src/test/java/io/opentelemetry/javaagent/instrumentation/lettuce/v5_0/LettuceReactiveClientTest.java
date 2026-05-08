@@ -33,6 +33,8 @@ import java.util.function.Consumer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 import reactor.core.scheduler.Schedulers;
 
 @SuppressWarnings("deprecation") // using deprecated semconv
@@ -247,6 +249,40 @@ class LettuceReactiveClientTest extends AbstractLettuceClientTest {
                                     val.isEqualTo(2);
                                   }
                                 }))));
+  }
+
+  @Test
+  void testCommandCancelOnMonoPublisher() {
+    reactiveCommands
+        .get("TESTKEY")
+        .subscribe(
+            new Subscriber<String>() {
+              @Override
+              public void onSubscribe(Subscription subscription) {
+                subscription.cancel();
+              }
+
+              @Override
+              public void onNext(String value) {}
+
+              @Override
+              public void onError(Throwable throwable) {}
+
+              @Override
+              public void onComplete() {}
+            });
+
+    testing.waitAndAssertTraces(
+        trace ->
+            trace.hasSpansSatisfyingExactly(
+                span ->
+                    span.hasName("GET")
+                        .hasKind(SpanKind.CLIENT)
+                        .hasAttributesSatisfyingExactly(
+                            equalTo(maybeStable(DB_SYSTEM), REDIS),
+                            equalTo(maybeStable(DB_STATEMENT), "GET TESTKEY"),
+                            equalTo(maybeStable(DB_OPERATION), "GET"),
+                            equalTo(booleanKey("lettuce.command.cancelled"), experimental(true)))));
   }
 
   @Test

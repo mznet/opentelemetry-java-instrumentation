@@ -65,12 +65,13 @@ public class LettuceReactiveCommandsInstrumentation implements TypeInstrumentati
         @Advice.Return Mono<T> originalPublisher, @Advice.Enter RedisCommand<K, V, T> command) {
       Mono<T> publisher = originalPublisher;
       boolean finishSpanOnClose = !expectsResponse(command);
-      LettuceMonoDualConsumer<? super Subscription, T> mdc =
-          new LettuceMonoDualConsumer<>(command, finishSpanOnClose);
-      publisher = publisher.doOnSubscribe(mdc);
+      LettuceMonoTerminationHandler<? super Subscription, T> handler =
+          new LettuceMonoTerminationHandler<>(command, finishSpanOnClose);
+      publisher = publisher.doOnSubscribe(handler);
       // register the call back to close the span only if necessary
       if (!finishSpanOnClose) {
-        publisher = publisher.doOnSuccessOrError(mdc);
+        publisher = publisher.doOnSuccessOrError(handler);
+        publisher = publisher.doOnCancel(handler);
       }
       return publisher;
     }
